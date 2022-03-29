@@ -1,8 +1,23 @@
-﻿<div class="pipe" style="@_pipeCSS"></div>
+﻿<div class="pipe top" style="@_topPipeCSS"></div>
+<div class="pipe" style="@_bottomPipeCSS"></div>
+
 
 @code {
     [Parameter] public PipeModel Model { get; set; }
 
-    string _pipeCSS => $"left: {Model.DistanceFromLeft}px; bottom: {Model.DistanceFromBottom}px;";
+    string _pipeCSS;
+    string _topPipeCSS;
+    string _bottomPipeCSS;
 
+    protected override void OnParametersSet()
+    {
+        Model.PropertyChanged += (o, e) => StateHasChanged();
+        _pipeCSS = $"height: {Model.Height}px; width: {Model.Width}px;";
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _topPipeCSS = $"{_pipeCSS} left: {Model.DistanceFromLeft}px; bottom: {Model.DistanceFromBottom + Model.Gap + Model.Height}px;";
+        _bottomPipeCSS = $"{_pipeCSS} left: {Model.DistanceFromLeft}px; bottom: {Model.DistanceFromBottom}px;";
+    }
 }

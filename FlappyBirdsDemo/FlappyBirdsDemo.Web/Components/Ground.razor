@@ -1,0 +1,12 @@
+﻿<div class="ground" style="@_groundCSS"></div>
+
+@code {
+    [Parameter]
+    public int Height { get; set; }
+    [Parameter]
+    public int Width { get; set; }
+    [Parameter]
+    public int Top { get; set; }
+
+    string _groundCSS => $"height: {Height}px; width: {Width}px; top: {Top}px;"; 
+}

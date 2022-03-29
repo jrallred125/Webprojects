@@ -1,0 +1,15 @@
+﻿<div class="sky" style="@_skyCSS">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public int Height { get; set; }
+    [Parameter]
+    public int Width { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    string _skyCSS => $"hight: {Height}px; width: {Width}px;";
+
+}
