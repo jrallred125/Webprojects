@@ -1,0 +1,57 @@
+﻿@page "/"
+@page "/Budget"
+@inject BudgetBookService budgetBookService
+<h3>Did this work?</h3>
+<form>
+    <div class="row">
+        <div class="col">
+            <label class="control-label">Northwest x cord</label>
+            <input class="form-control" @bind="@newCord.XCord"/>
+        </div>
+        <div class="col">
+            <label class="control-label">Northwest z cord</label>
+            <input class="form-control" @bind="@newCord.ZCord"/>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-primary" @onclick="@CreateEntry">Add</button>
+        </div>
+    </div>
+</form>
+<hr/>
+<table class="table table-striped table-bordered">       
+    <tbody>
+        @foreach(var row in Cords)
+        {
+           <tr>
+                @foreach(var col in row)
+                {
+                    <td>
+                        @col
+                    </td>
+                }
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@code {
+    List<List<CordModel>> Cords = new();
+
+    CordModel newCord = new(0,0);
+
+    protected async Task OnInitializaedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        Cords = await budgetBookService.GetSpawnCords();
+    }
+
+    protected async void CreateEntry()
+    {
+        await budgetBookService.CaculateCords(newCord);
+    }
+
+}
